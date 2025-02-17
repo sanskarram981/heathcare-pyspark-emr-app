@@ -1,6 +1,9 @@
 from abc import ABC, abstractmethod
 from pyspark.sql.types import StructField, StructType, IntegerType, StringType, LongType, DecimalType, DateType
 
+from constants import ADDRESS_DF, CLAIM_DF, CONTAIN_DF, INSURANCE_COMPANY_DF, INSURANCE_PLAN_DF, KEEP_DF, MEDICINE_DF, \
+    PATIENT_DF, PERSON_DF, PHARMACY_DF, PRESCRIPTION_DF, TREATMENT_DF, DISEASE_DF
+
 
 class DatasetHandler(ABC):
 
@@ -249,7 +252,7 @@ class PrescriptionHandler(DatasetHandler):
         self.sparkSession = sparkSession
         self.filePath = filePath
         self.df = None
-        self.schema = StructType([StructField("prescriptionID",LongType(), True),
+        self.schema = StructType([StructField("prescriptionID", LongType(), True),
                                   StructField("pharmacyID", IntegerType(), True),
                                   StructField("treatmentID", IntegerType(), True)])
 
@@ -284,3 +287,45 @@ class TreatmentHandler(DatasetHandler):
             .schema(self.schema) \
             .load(self.filePath)
         return self.df
+
+
+def getDatasets(spark):
+
+    addressDf = AddressHandler(spark, "datalake/HealthcareTables/Address/Address.csv").readSourceDataset()
+    claimDf = ClaimHandler(spark, "datalake/HealthcareTables/Claim/Claim.csv").readSourceDataset()
+    containDf = ContainHandler(spark, "datalake/HealthcareTables/Contain/Contain.csv").readSourceDataset()
+    diseaseDf = DiseaseHandler(spark, "datalake/HealthcareTables/Disease/Disease.csv").readSourceDataset()
+    insuranceCompanyDf = InsuranceCompanyHandler(spark,
+                                                 "datalake/HealthcareTables/InsuranceCompany/InsuranceCompany.csv") \
+        .readSourceDataset()
+    insurancePlanDf = InsurancePlanHandler(spark, "datalake/HealthcareTables/InsurancePlan/InsurancePlan.csv") \
+        .readSourceDataset()
+    keepDf = KeepHandler(spark, "datalake/HealthcareTables/Keep/Keep.csv").readSourceDataset()
+    medicineDf = MedicineHandler(spark, "datalake/HealthcareTables/Medicine/Medicine.csv").readSourceDataset()
+    patientDf = PatientHandler(spark, "datalake/HealthcareTables/Patient/Patient.csv").readSourceDataset()
+    personDf = PersonHandler(spark, "datalake/HealthcareTables/Person/Person.csv").readSourceDataset()
+    pharmacyDf = PharmacyHandler(spark, "datalake/HealthcareTables/Pharmacy/Pharmacy.csv").readSourceDataset()
+    prescriptionDf = PrescriptionHandler(spark,
+                                         "datalake/HealthcareTables/Prescription/Prescription.csv").readSourceDataset()
+    treatmentDf = TreatmentHandler(spark, "datalake/HealthcareTables/Treatment/Treatment.csv").readSourceDataset()
+
+    datasets = {
+        ADDRESS_DF: addressDf,
+        CLAIM_DF: claimDf,
+        CONTAIN_DF: containDf,
+        INSURANCE_COMPANY_DF: insuranceCompanyDf,
+        INSURANCE_PLAN_DF: insurancePlanDf,
+        KEEP_DF: keepDf,
+        MEDICINE_DF: medicineDf,
+        PATIENT_DF: patientDf,
+        PERSON_DF: personDf,
+        PHARMACY_DF: pharmacyDf,
+        PRESCRIPTION_DF: prescriptionDf,
+        TREATMENT_DF: treatmentDf,
+        DISEASE_DF: diseaseDf
+    }
+
+    return datasets
+
+
+
