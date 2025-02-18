@@ -9,7 +9,7 @@ from pharmacy_inventory_fact import PharmacyInventoryFact
 from prescription_details_fact import PrescriptionDetailsFact
 
 
-def process():
+def process(inputPath, outputPath):
     spark = SparkSession.builder \
         .appName(APP_NAME) \
         .getOrCreate()
@@ -20,15 +20,15 @@ def process():
     pif.create()
     pif.persist()
 
-    pdf = PrescriptionDetailsFact(datasets[PRESCRIPTION_DF],datasets[CONTAIN_DF])
+    pdf = PrescriptionDetailsFact(datasets[PRESCRIPTION_DF], datasets[CONTAIN_DF])
     pdf.create()
     pdf.persist()
 
-    cif = ClaimInsuranceFact(datasets[CLAIM_DF],datasets[INSURANCE_PLAN_DF],datasets[INSURANCE_COMPANY_DF])
+    cif = ClaimInsuranceFact(datasets[CLAIM_DF], datasets[INSURANCE_PLAN_DF], datasets[INSURANCE_COMPANY_DF])
     cif.create()
     cif.persist()
 
-    ptf = PatientTreatmentFact(datasets[TREATMENT_DF],datasets[DISEASE_DF],datasets[PATIENT_DF])
+    ptf = PatientTreatmentFact(datasets[TREATMENT_DF], datasets[DISEASE_DF], datasets[PATIENT_DF])
     ptf.create()
     ptf.persist()
 
