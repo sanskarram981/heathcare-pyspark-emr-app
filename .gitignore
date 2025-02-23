@@ -2,3 +2,4 @@
 /datalake/
 /datawarehouse/
 /.env
+/.DS_Store
