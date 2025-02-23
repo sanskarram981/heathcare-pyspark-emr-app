@@ -18,10 +18,10 @@ class PharmacyInventoryFact:
     def reconcile(self):
         pass
 
-    def persist(self):
+    def persist(self,outputPath):
         self.sourceDf = self.sourceDf.coalesce(1)
         self.sourceDf.write.format("csv") \
             .option("header", True) \
             .option("delimiter", ",") \
             .mode("overwrite") \
-            .save("datawarehouse/HealthcareTables/PharmacyInventoryFact")
+            .save("{}/HealthcareTables/PharmacyInventoryFact".format(outputPath))

@@ -1,6 +1,5 @@
 from pyspark.sql.functions import col
 
-
 class ClaimInsuranceFact:
     def __init__(self, claimDf, insurancePlanDf, insuranceCompanyDf):
         self.claimDf = claimDf
@@ -19,10 +18,10 @@ class ClaimInsuranceFact:
     def reconcile(self):
         pass
 
-    def persist(self):
+    def persist(self,outputPath):
         self.sourceDf = self.sourceDf.coalesce(1)
         self.sourceDf.write.format("csv") \
             .option("header", True) \
             .option("delimiter", ",") \
             .mode("overwrite") \
-            .save("datawarehouse/HealthcareTables/ClaimInsuranceFact")
+            .save("{}/HealthcareTables/ClaimInsuranceFact".format(outputPath))
