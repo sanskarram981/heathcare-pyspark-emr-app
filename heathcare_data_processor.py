@@ -15,7 +15,6 @@ load_dotenv()
 logger = get_logger("heathcare_data_processor")
 
 
-#  spark-submit --packages org.apache.hadoop:hadoop-aws:3.3.4,com.amazonaws:aws-java-sdk-bundle:1.12.681 main.py --input 's3a://heathcare-emr-rasans-bucket/input' --output 's3a://heathcare-emr-rasans-bucket/output'
 def process(inputPath, outputPath):
     logger.info("process has been started")
     spark = SparkSession.builder \

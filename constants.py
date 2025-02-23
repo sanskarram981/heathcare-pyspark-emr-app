@@ -12,5 +12,4 @@ PRESCRIPTION_DF = "prescriptionDf"
 TREATMENT_DF = "treatmentDf"
 DISEASE_DF = "diseaseDf"
 APP_NAME = "healthCareSparkApp"
-#S3_INPUT_PATH = "s3a://heathcare-emr-rasans-bucket/input"
-#S3_OUTPUT_PATH = "s3a://heathcare-emr-rasans-bucket/output"
+
